@@ -75,6 +75,17 @@ func RespondWithErrorPage( //nolint:funlen,gocyclo
 			ctx.Response.Header.SetBytesV(headerToProxy, reqHeader)
 		}
 	}
+	// security headers
+	// Cache-Control: "no-store"
+	// Content-Security-Policy: "frame-ancestors 'none'"
+	// Strict-Transport-Security: "max-age=31536000"
+	// X-Content-Type-Options: "nosniff"
+	// X-Frame-Options: "DENY"
+	ctx.Response.Header.Add("Cache-Control", "no-store")
+	ctx.Response.Header.Add("Content-Security-Policy", "frame-ancestors 'none'")
+	ctx.Response.Header.Add("Strict-Transport-Security", "max-age=31536000")
+	ctx.Response.Header.Add("X-Content-Type-Options", "nosniff")
+	ctx.Response.Header.Add("X-Frame-Options", "DENY")
 
 	switch {
 	case clientWant == JSONContentType && canJSON: // JSON
